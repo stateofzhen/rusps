@@ -1,7 +1,7 @@
 # validate addresses using usps
 
-validate_address_usps <- function(street, city, state, username) {
-
+validate_address_usps2 <- function(street, city, state, username) {
+  state <-state.abb[grep(state, toupper(state.name))]
   rmwac <- function(x) x[ !names(x) %in% "ReturnText"]
 
   nullToNA <- function(x) {
@@ -29,13 +29,16 @@ validate_address_usps <- function(street, city, state, username) {
 
     address_ids <- c()
 
-    for(i in 0:4) {
+    for(i in 1:4) {
       id_number <- paste0("<Address ID=\"", i, "\">")
 
       address_part  <- paste0("<Address1></Address1><Address2>",
-                              street[(i + 1) + (j * 5) - 5], "</Address2><City>",
-                              city[(i + 1) + (j * 5) - 5], "</City><State>",
-                              state[(i + 1) + (j * 5) - 5], "</State></Address>")
+                              #street[(i + 1) + (j * 5) - 5], "</Address2><City>",
+                              #city[(i + 1) + (j * 5) - 5], "</City><State>",
+                              #state[(i + 1) + (j * 5) - 5], "</State></Address>")
+                              street[(i + 1) ], "</Address2><City>",
+                              city[(i + 1) ], "</City><State>",
+                              state[(i + 1)], "</State></Address>")
 
       address_ids <- c(address_ids,  paste0(id_number, address_part))
     }
