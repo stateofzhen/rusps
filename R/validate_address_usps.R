@@ -1,6 +1,6 @@
 # validate addresses using usps
 
-validate_address_usps2 <- function(street, city, state, username) {
+validate_address_usps <- function(street, city, state, username) {
   state <-state.abb[grep(state, toupper(state.name))]
   rmwac <- function(x) x[ !names(x) %in% "ReturnText"]
 
@@ -100,3 +100,19 @@ validate_address_usps2 <- function(street, city, state, username) {
   return(all_addresses)
 
 }
+
+
+#If you end up doing this for a long tabular format of data and go through each row, there are null rows that return as results
+# to remove the NA rows, try something like:
+#for(i in 1:nrow(df)){
+#  street1 <- df$`Location Address 1 [Public School] 2015-16`[i]
+#  city <- df$`Location City [Public School] 2015-16`[i]
+#  state <- df$State[i]
+#  temp <- validate_address_usps(street1, city, state, username)
+#  row.has.na <- apply(temp, 1, function(x){any(is.na(x))})    #this line and the next line remove all the NA entries are produced when the API call returns
+#  temp <- temp[!row.has.na,]
+#  if(length(temp$Zip5)==1){
+#    df$Zipcode[i] <- as.numeric(temp$Zip5[[1]])
+#  }else{
+#    df$Zipcode[i] <- NA
+#  }
